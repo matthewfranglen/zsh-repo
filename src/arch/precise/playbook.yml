@@ -1,0 +1,25 @@
+---
+- hosts: default
+  sudo: yes
+
+  tasks:
+  - name: Update apt cache
+    apt: update_cache=yes
+
+  - name: Install dependencies
+    apt: name={{ item }} state=latest
+    with_items:
+      - autoconf
+      - gawk
+      - yodl
+      - texlive-binaries
+      - texinfo
+      - texi2html
+      - automake
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libcap-dev
+      - libpcre3-dev
+      - ruby1.9.1-dev
+
+# vim: set ai et sw=4 syntax=yaml :

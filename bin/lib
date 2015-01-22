@@ -1,0 +1,39 @@
+# Source this to load the shared functions
+
+REPO_FOLDER=${ROOT_FOLDER}/src/repo
+SRC_FOLDER=${ROOT_FOLDER}/src
+TARGET_FOLDER=${ROOT_FOLDER}/target
+
+EPOCH=0
+
+function error () {
+    printf "%s\n" $@ >&2
+}
+
+function parse_args () {
+    if [ -z $1 ]
+    then
+        error "Architecture is a required argument"
+        exit 1
+    fi
+
+    ARCHITECTURE=$1
+    ARCH_FOLDER=${SRC_FOLDER}/arch/${ARCHITECTURE}
+    CONTROL_FOLDER=${ARCH_FOLDER}/DEBIAN
+    CONTROL_FILE=${CONTROL_FOLDER}/control
+    PACKAGES_FOLDER=${ROOT_FOLDER}/packages/${ARCHITECTURE}
+}
+
+function validate_architecture () {
+    if [ ! -e ${ARCH_FOLDER} ]
+    then
+        error "Architecture '${ARCHITECTURE}' not supported"
+        exit 1
+    fi
+}
+
+function cd_architecture () {
+    cd ${ARCH_FOLDER}
+}
+
+# vim: set ai et sw=4 syntax=zsh :

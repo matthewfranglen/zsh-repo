@@ -1,0 +1,15 @@
+Package: zsh
+Version: 0:5.0.7
+Architecture: amd64
+Maintainer: Matthew Franglen <matthew@franglen.io>
+Depends: libc6 (>= 2.15), libcap2 (>= 2.10), libtinfo5
+Recommends: libncursesw5 (>= 5.6+20070908), libpcre3 (>= 8.10)
+Homepage: http://www.zsh.org/
+Description: shell with lots of features
+ Zsh is a UNIX command interpreter (shell) usable as an
+ interactive login shell and as a shell script command
+ processor. Of the standard shells, zsh most closely resembles
+ ksh but includes many enhancements. Zsh has command-line editing,
+ built-in spelling correction, programmable command completion,
+ shell functions (with autoloading), a history mechanism, and a
+ host of other features.

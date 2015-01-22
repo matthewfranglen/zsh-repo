@@ -1,0 +1,39 @@
+#!/bin/zsh
+
+emulate -L zsh
+
+ROOT_FOLDER=${0:A:h:h}
+source ${ROOT_FOLDER}/bin/lib
+
+function start_vm () {
+    [ ! -e ${TARGET_FOLDER} ] && mkdir -p ${TARGET_FOLDER}
+    (
+        cd_architecture
+        vagrant up
+    )
+}
+
+function build () {
+    (
+        cd_architecture
+        vagrant ssh -- '/src/build'
+    )
+}
+
+function destroy_vm () {
+    (
+        cd_architecture
+        vagrant destroy --force
+    )
+}
+
+parse_args $@
+
+start_vm && build
+build_status=$?
+
+# destroy_vm
+
+exit $build_status
+
+# vim: set ai et sw=4 syntax=zsh :

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+SOURCE=/src/repo
+TARGET=/target
+
+cd ${SOURCE}
+
+autoconf
+make distclean
+./configure \
+    --with-tcsetpgrp
+make
+sudo DESTDIR=${TARGET} make install
+
+# vim: set ai et sw=4 syntax=sh :

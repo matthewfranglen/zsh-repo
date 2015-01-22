@@ -1,0 +1,26 @@
+#!/bin/sh
+
+BIN_FOLDER=`dirname $0`
+ARCH_FOLDER=${BIN_FOLDER}/../src/arch
+
+update_repo () {
+    env -i ${BIN_FOLDER}/update-repo
+}
+
+build_zsh () {
+    env -i ${BIN_FOLDER}/build $1
+}
+
+build_deb_package () {
+    env -i ${BIN_FOLDER}/build-deb $1
+}
+
+update_repo || exit 1
+
+for arch in `ls ${ARCH_FOLDER}`
+do
+    build_zsh ${arch} || exit 1
+    build_deb_package ${arch} || exit 1
+done
+
+# vim: set ai et sw=4 syntax=sh :

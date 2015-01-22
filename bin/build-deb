@@ -1,0 +1,36 @@
+#!/bin/zsh
+
+emulate -L zsh
+
+ROOT_FOLDER=${0:A:h:h}
+source ${ROOT_FOLDER}/bin/lib
+
+function get_version () {
+    (
+        cd ${REPO_FOLDER}
+
+        git describe --tags --abbrev=0 | sed -e 's/^.*-//'
+    )
+}
+
+function set_version () {
+    local version="${EPOCH}:$(get_version)"
+    sed -i -e 's/Version:.*/Version: '${version}'/' ${CONTROL_FILE}
+}
+
+function install_control () {
+    [ -e ${TARGET_FOLDER}/DEBIAN ] && rm -rf ${TARGET_FOLDER}/DEBIAN
+    cp -r ${CONTROL_FOLDER} ${TARGET_FOLDER}/DEBIAN
+}
+
+# The exit status of this indicates if a new tag has been published
+function build_deb () {
+    [ ! -e ${PACKAGES_FOLDER} ] && mkdir -p ${PACKAGES_FOLDER}
+    dpkg-deb --build ${TARGET_FOLDER} ${PACKAGES_FOLDER}/zsh_$(get_version)_${ARCHITECTURE}_amd64.deb
+}
+
+parse_args $@
+
+set_version && install_control && build_deb
+
+# vim: set ai et sw=4 syntax=zsh :
